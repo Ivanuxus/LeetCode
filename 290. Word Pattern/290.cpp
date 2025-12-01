@@ -59,10 +59,6 @@ public:
     bool wordPattern(std::string pattern, std::string s)
     {
         std::vector<std::string> splittedString = splitToVector(s);
-        if (pattern.size() != splittedString.size())
-        {
-            return false;
-        }
         for (int i = 0; i < splittedString.size(); ++i)
         {
             if (!isInMapKeys(pattern[i]) && isInMapValues(splittedString[i]))
@@ -96,8 +92,8 @@ public:
 };
 int main()
 {
-    std::string pattern = "jquery";
-    std::string s = "jquery";
+    std::string pattern = "abc";
+    std::string s = "b c a";
     Solution S;
     std::cout << S.wordPattern(pattern, s);
     return 0;
