@@ -21,6 +21,36 @@ public:
 
     TreeNode *treeNodeMaker(std::vector<std::string> elem)
     {
+        std::cout << std::endl;
+        std::cout << std::endl;
+        for (int i = 0; i <= elem.size(); i++)
+        {
+            std::cout << elem[i] << " " << i;
+        }
+        Solution::TreeNode *tree = new Solution::TreeNode();
+        int i = 0;
+        int counter;
+        while (i < elem.size())
+        {
+            putToDeque(elem[i]);
+            tree->val = stoi(popFromDeque());
+            counter = 0;
+            int j = i + 1;
+            while (counter != 2)
+            {
+                putToDeque(elem[j]);
+                if (counter == 0)
+                {
+                    tree->left = new TreeNode(stoi(popFromDeque()));
+                }
+                if (counter == 1)
+                {
+                    tree->right = new TreeNode(stoi(popFromDeque()));
+                }
+                j++;
+                counter++;
+            }
+        }
     }
     void putToDeque(std::string x)
     {
@@ -75,12 +105,12 @@ int main()
 {
     Solution *o = new Solution;
     std::vector<std::string> elem = {"1", "2", "3", "4", "5", "null", "8", "null", "null", "6", "7", "9"};
+    Solution::TreeNode *tree = o->treeNodeMaker(elem);
     // for (int i = 0; i < elem.size(); i++)
     // {
     //     o->putToDeque(elem[i]);
     // }
     // o->showDequeValues();
-    Solution::TreeNode* tree = new Solution::TreeNode();
     // std::cout << std::endl;
     // std::cout << o->pop_front() << std::endl;
     // std::cout << o->pop_front() << std::endl;
