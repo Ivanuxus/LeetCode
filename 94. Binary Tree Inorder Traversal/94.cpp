@@ -21,6 +21,8 @@ public:
 
     TreeNode *treeNodeMaker(std::vector<std::string> elem)
     {
+        std::string a[9999];
+        std::string refers[9999];
         std::cout << std::endl;
         std::cout << std::endl;
         for (int i = 0; i < elem.size(); i++)
@@ -54,7 +56,6 @@ public:
                     i = j;
                 }
                 j++;
-                counter++;
             }
             tree = tree->left;
         }
