@@ -23,47 +23,54 @@ public:
     {
         std::cout << std::endl;
         std::cout << std::endl;
-        for (int i = 0; i <= elem.size(); i++)
+        for (int i = 0; i < elem.size(); i++)
         {
             std::cout << elem[i] << " " << i;
         }
         Solution::TreeNode *tree = new Solution::TreeNode();
+        Solution::TreeNode *headOfTree = tree;
         int i = 0;
         int counter;
         while (i < elem.size())
         {
-            putToDeque(elem[i]);
-            tree->val = stoi(popFromDeque());
+            if (i == 0)
+            {
+                tree->val = stoi(elem[i]);
+                putToDeque(tree);
+            }
             counter = 0;
             int j = i + 1;
             while (counter != 2)
             {
-                putToDeque(elem[j]);
-                if (counter == 0)
+                if (counter == 0 && elem[j] != "null")
                 {
-                    tree->left = new TreeNode(stoi(popFromDeque()));
+                    tree->left = new TreeNode(stoi(elem[j]));
+                    putToDeque(tree->left);
                 }
-                if (counter == 1)
+                if (counter == 1 && elem[j] != "null")
                 {
-                    tree->right = new TreeNode(stoi(popFromDeque()));
+                    tree->right = new TreeNode(stoi(elem[j]));
+                    putToDeque(tree->right);
+                    i = j;
                 }
                 j++;
                 counter++;
             }
+            tree = tree->left;
         }
     }
-    void putToDeque(std::string x)
+    void putToDeque(Solution::TreeNode *x)
     {
         pos += 1;
         a[pos] = x;
     }
-    std::string popFromDeque()
+    Solution::TreeNode *popFromDeque()
     {
         try
         {
             if (pos <= temp_pos)
                 throw "EMPTY!";
-            std::string temp = a[pos];
+            Solution::TreeNode *temp = a[pos];
             pos -= 1;
             return temp;
         }
@@ -72,13 +79,13 @@ public:
             std::cout << "There are no elements here!" << std::endl;
         }
     }
-    std::string popFrontFromDeque()
+    Solution::TreeNode *popFrontFromDeque()
     {
         try
         {
             if (temp_pos > pos)
                 throw "EMPTY!";
-            std::string temp_pos_elem = a[temp_pos];
+            Solution::TreeNode *temp_pos_elem = a[temp_pos];
             temp_pos += 1;
             return temp_pos_elem;
         }
@@ -98,8 +105,8 @@ public:
 
 private:
     int pos = -1;
-    int temp_pos = 0;
-    std::string a[9999];
+    int temp_pos = -1;
+    Solution::TreeNode *a[9999];
 };
 int main()
 {
