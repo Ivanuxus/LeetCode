@@ -15,24 +15,38 @@ public:
         TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
     };
 
+    void inorderTraversalHelper(TreeNode *root, std::vector<int>& result)
+    {
+        if (root == nullptr)
+        {
+            return;
+        }
+        inorderTraversalHelper(root->left, result);
+        result.push_back(root->val);
+        inorderTraversalHelper(root->right, result);
+    }
     std::vector<int> inorderTraversal(TreeNode *root)
     {
+        std::vector<int> result;
+        inorderTraversalHelper(root, result);
+        return result;
     }
 
-    TreeNode *treeNodeMaker(std::vector<std::string> elem)
+    TreeNode *treeMaker(std::vector<std::string> elem)
     {
-        std::string a[9999];
-        std::string refers[9999];
-        std::cout << std::endl;
-        std::cout << std::endl;
-        for (int i = 0; i < elem.size(); i++)
-        {
-            std::cout << elem[i] << " " << i;
-        }
         Solution::TreeNode *tree = new Solution::TreeNode();
         Solution::TreeNode *headOfTree = tree;
         int i = 0;
         int counter;
+        resetDequeValues();
+
+        std::cout << std::endl;
+        for (int i = 0; i < elem.size(); i++)
+        {
+            std::cout << elem[i] << " have " << i << " as index" << std::endl;
+        }
+        std::cout << std::endl;
+
         while (i < elem.size())
         {
             if (i == 0)
@@ -44,21 +58,45 @@ public:
             int j = i + 1;
             while (counter != 2)
             {
-                if (counter == 0 && elem[j] != "null")
+                if (j >= elem.size())
                 {
-                    tree->left = new TreeNode(stoi(elem[j]));
-                    putToDeque(tree->left);
+                    return headOfTree;
                 }
-                if (counter == 1 && elem[j] != "null")
+                if (counter == 0)
                 {
-                    tree->right = new TreeNode(stoi(elem[j]));
-                    putToDeque(tree->right);
+                    if (elem[j] != "null")
+                    {
+                        tree->left = new TreeNode(stoi(elem[j]));
+                        putToDeque(tree->left);
+                    }
+                    if (elem[j] == "null")
+                    {
+                    }
+                }
+                if (counter == 1)
+                {
+                    if (elem[j] != "null")
+                    {
+                        tree->right = new TreeNode(stoi(elem[j]));
+                        putToDeque(tree->right);
+                        if (i == 0)
+                        {
+                            popFrontFromDeque();
+                        }
+                    }
+
+                    if (elem[j] == "null")
+                    {
+                    }
                     i = j;
                 }
                 j++;
+                counter += 1;
             }
-            tree = tree->left;
+            tree = popFrontFromDeque();
         }
+        resetDequeValues();
+        return headOfTree;
     }
     void putToDeque(Solution::TreeNode *x)
     {
@@ -77,8 +115,10 @@ public:
         }
         catch (...)
         {
-            std::cout << "There are no elements here!" << std::endl;
+            std::cout << std::endl
+                      << "There are no elements here!" << std::endl;
         }
+        return nullptr;
     }
     Solution::TreeNode *popFrontFromDeque()
     {
@@ -92,8 +132,26 @@ public:
         }
         catch (...)
         {
-            std::cout << "There are no elements here!" << std::endl;
+            std::cout << std::endl
+                      << "There are no elements here!" << std::endl;
         }
+        return nullptr;
+    }
+    Solution::TreeNode *showFrontFromDeque()
+    {
+        try
+        {
+            if (temp_pos > pos)
+                throw "EMPTY!";
+            Solution::TreeNode *temp_pos_elem = a[temp_pos];
+            return temp_pos_elem;
+        }
+        catch (...)
+        {
+            std::cout << std::endl
+                      << "There are no elements here!" << std::endl;
+        }
+        return nullptr;
     }
     void showDequeValues()
     {
@@ -103,25 +161,27 @@ public:
             std::cout << a[i] << " ";
         }
     }
+    void resetDequeValues()
+    {
+        pos = -1;
+        temp_pos = 0;
+        for (int i = 0; i <= 9999; i++)
+        {
+            a[i] = nullptr;
+        }
+    }
 
 private:
     int pos = -1;
-    int temp_pos = -1;
+    int temp_pos = 0;
     Solution::TreeNode *a[9999];
 };
 int main()
 {
+    std::vector<int> result;
     Solution *o = new Solution;
     std::vector<std::string> elem = {"1", "2", "3", "4", "5", "null", "8", "null", "null", "6", "7", "9"};
-    Solution::TreeNode *tree = o->treeNodeMaker(elem);
-    // for (int i = 0; i < elem.size(); i++)
-    // {
-    //     o->putToDeque(elem[i]);
-    // }
-    // o->showDequeValues();
-    // std::cout << std::endl;
-    // std::cout << o->pop_front() << std::endl;
-    // std::cout << o->pop_front() << std::endl;
-
+    Solution::TreeNode *tree = o->treeMaker(elem);
+    result = o->inorderTraversal(tree);
     return 0;
 }
