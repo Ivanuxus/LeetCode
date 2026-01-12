@@ -17,29 +17,33 @@ public:
 
     bool inorderTraversal(TreeNode *tree1, TreeNode *tree2)
     {
-        if(tree1->val != tree2->val)
+        if (tree1 == nullptr && tree2 == nullptr)
+        {
+            return true;
+        }
+        if (tree1->val != tree2->val)
         {
             return false;
         }
-        if(tree1->left ==  nullptr && tree2->left !=  nullptr)
+        if (tree1->left == nullptr && tree2->left != nullptr)
         {
             return false;
         }
-        if(tree1->left !=  nullptr && tree2->left ==  nullptr)
+        if (tree1->left != nullptr && tree2->left == nullptr)
         {
             return false;
         }
-        if(tree1->right ==  nullptr && tree2->right !=  nullptr)
+        if (tree1->right == nullptr && tree2->right != nullptr)
         {
             return false;
         }
-        if(tree1->right !=  nullptr && tree2->right ==  nullptr)
+        if (tree1->right != nullptr && tree2->right == nullptr)
         {
             return false;
         }
-        std::cout<< tree1->val<< " "<< tree2->val;
-        int result1 = tree1->val;
-        int result2 = tree2->val;
+        std::cout << tree1->val << " " << tree2->val << std::endl;
+        // int result1 = tree1->val;
+        // int result2 = tree2->val;
         inorderTraversal(tree1->left, tree2->left);
         inorderTraversal(tree1->right, tree2->right);
         return true;
@@ -193,10 +197,12 @@ int main()
 {
     std::vector<int> result;
     Solution *o = new Solution;
-    std::vector<std::string> elem1 = {"1", "null", "2", "null", "3"};
-    std::vector<std::string> elem2 = {"1", "null", "2", "null", "3"};
+    std::vector<std::string> elem1 = {"1", "2", "1"};
+    std::vector<std::string> elem2 = {"1", "1", "2"};
     Solution::TreeNode *tree1 = o->treeMaker(elem1);
     Solution::TreeNode *tree2 = o->treeMaker(elem2);
-    o->inorderTraversal(tree1, tree2);
+    std::cout << std::endl
+              << std::endl
+              << o->inorderTraversal(tree1, tree2);
     return 0;
 }
