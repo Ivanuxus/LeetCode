@@ -14,40 +14,26 @@ public:
         TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
         TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
     };
-
-    bool inorderTraversal(TreeNode *tree1, TreeNode *tree2)
+    bool isSameTree(TreeNode *p, TreeNode *q)
     {
-        if (tree1 == nullptr && tree2 == nullptr)
+        if (p == nullptr && q == nullptr)
         {
             return true;
         }
-        if (tree1->val != tree2->val)
+        if (p == nullptr && q != nullptr)
         {
             return false;
         }
-        if (tree1->left == nullptr && tree2->left != nullptr)
+        if (p != nullptr && q == nullptr)
         {
             return false;
         }
-        if (tree1->left != nullptr && tree2->left == nullptr)
+        if (p->val != q->val)
         {
             return false;
         }
-        if (tree1->right == nullptr && tree2->right != nullptr)
-        {
-            return false;
-        }
-        if (tree1->right != nullptr && tree2->right == nullptr)
-        {
-            return false;
-        }
-        std::cout << tree1->val << " " << tree2->val << std::endl;
-        // int result1 = tree1->val;
-        // int result2 = tree2->val;
-        inorderTraversal(tree1->left, tree2->left);
-        inorderTraversal(tree1->right, tree2->right);
-        return true;
-    };
+        return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
+    }
 
     TreeNode *treeMaker(std::vector<std::string> elem)
     {
@@ -197,12 +183,11 @@ int main()
 {
     std::vector<int> result;
     Solution *o = new Solution;
-    std::vector<std::string> elem1 = {"1", "2", "1"};
-    std::vector<std::string> elem2 = {"1", "1", "2"};
+    std::vector<std::string> elem1 = {"1", "2", "3"};
+    std::vector<std::string> elem2 = {"1", "2", "3"};
     Solution::TreeNode *tree1 = o->treeMaker(elem1);
     Solution::TreeNode *tree2 = o->treeMaker(elem2);
     std::cout << std::endl
-              << std::endl
-              << o->inorderTraversal(tree1, tree2);
+              << o->isSameTree(tree1, tree2);
     return 0;
 }
